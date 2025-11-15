@@ -1,21 +1,55 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import DashboardCard from '../../components/DashboardCard';
 import MatchCard from '../../components/MatchCard';
 import { MatchWithDetails, SupplyStream } from '../../util/supabaseClient';
+import { getRestaurantId } from '../../util/session';
 
 export default function RestaurantDashboard() {
+  const router = useRouter();
   const [supplies, setSupplies] = useState<SupplyStream[]>([]);
   const [matches, setMatches] = useState<MatchWithDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // TODO: Fetch actual data from API
-    // For now, this is a placeholder
-    setIsLoading(false);
-  }, []);
+    const restaurantId = getRestaurantId();
+    if (!restaurantId) {
+      // Redirect to registration if not logged in
+      router.push('/register/restaurant');
+      return;
+    }
+
+    async function fetchData() {
+      try {
+        // Fetch supplies
+        const suppliesRes = await fetch(`/api/supply?restaurant_id=${restaurantId}`);
+        if (!suppliesRes.ok) {
+          throw new Error('Failed to fetch supplies');
+        }
+        const suppliesData = await suppliesRes.json();
+        setSupplies(suppliesData.supplies || []);
+
+        // Fetch matches
+        const matchesRes = await fetch(`/api/matches?restaurant_id=${restaurantId}`);
+        if (!matchesRes.ok) {
+          throw new Error('Failed to fetch matches');
+        }
+        const matchesData = await matchesRes.json();
+        setMatches(matchesData.matches || []);
+      } catch (err) {
+        console.error('Error fetching dashboard data:', err);
+        setError('Failed to load dashboard data');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [router]);
 
   const totalWeeklySupply = supplies.reduce(
     (sum, supply) => sum + supply.weekly_quantity_kg,

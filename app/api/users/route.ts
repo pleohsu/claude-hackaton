@@ -62,8 +62,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Create restaurant or lab profile
+    let entityId: string | undefined;
+
     if (user_type === 'restaurant') {
-      const { error: restaurantError } = await supabase
+      const { data: restaurantData, error: restaurantError } = await supabase
         .from('restaurants')
         .insert({
           user_id: userData.id,
@@ -75,7 +77,9 @@ export async function POST(request: NextRequest) {
           cleanliness_level: (data as any).cleanliness_level,
           pickup_windows: (data as any).pickup_windows || null,
           contact_phone: (data as any).contact_phone || null,
-        });
+        })
+        .select()
+        .single();
 
       if (restaurantError) {
         console.error('Restaurant creation error:', restaurantError);
@@ -83,20 +87,26 @@ export async function POST(request: NextRequest) {
         await supabase.from('users').delete().eq('id', userData.id);
         throw restaurantError;
       }
+
+      entityId = restaurantData.id;
     } else if (user_type === 'lab') {
-      const { error: labError } = await supabase.from('labs').insert({
-        user_id: userData.id,
-        institution_name: (data as any).institution_name,
-        dept: (data as any).dept || null,
-        lab_name: (data as any).lab_name || null,
-        address: data.address,
-        latitude,
-        longitude,
-        extraction_frequency: (data as any).extraction_frequency,
-        max_pickup_radius_km: (data as any).max_pickup_radius_km,
-        application: (data as any).application,
-        contact_phone: (data as any).contact_phone || null,
-      });
+      const { data: labData, error: labError } = await supabase
+        .from('labs')
+        .insert({
+          user_id: userData.id,
+          institution_name: (data as any).institution_name,
+          dept: (data as any).dept || null,
+          lab_name: (data as any).lab_name || null,
+          address: data.address,
+          latitude,
+          longitude,
+          extraction_frequency: (data as any).extraction_frequency,
+          max_pickup_radius_km: (data as any).max_pickup_radius_km,
+          application: (data as any).application,
+          contact_phone: (data as any).contact_phone || null,
+        })
+        .select()
+        .single();
 
       if (labError) {
         console.error('Lab creation error:', labError);
@@ -104,6 +114,8 @@ export async function POST(request: NextRequest) {
         await supabase.from('users').delete().eq('id', userData.id);
         throw labError;
       }
+
+      entityId = labData.id;
     }
 
     return NextResponse.json(
@@ -115,6 +127,7 @@ export async function POST(request: NextRequest) {
           email: userData.email,
           user_type: userData.user_type,
         },
+        entityId, // Include restaurant_id or lab_id for session storage
       },
       { status: 201 }
     );

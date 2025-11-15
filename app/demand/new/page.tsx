@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ShellTypeSelector from '../../components/ShellTypeSelector';
 import InputCard, { TextInput, Select, TextArea } from '../../components/InputCard';
 import { ShellType } from '../../util/validators';
+import { getLabId } from '../../util/session';
 
 export default function NewDemand() {
   const router = useRouter();
@@ -18,6 +19,17 @@ export default function NewDemand() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [labId, setLabId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const id = getLabId();
+    if (!id) {
+      // Redirect to registration if not logged in as lab
+      router.push('/register/lab');
+    } else {
+      setLabId(id);
+    }
+  }, [router]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -67,6 +79,7 @@ export default function NewDemand() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            lab_id: labId,
             shell_type_needed: shellType,
             weekly_quantity_needed_kg: parseFloat(formData.weekly_quantity_needed_kg),
             extraction_frequency: formData.extraction_frequency,

@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ShellTypeSelector from '../../components/ShellTypeSelector';
 import InputCard, { TextInput, Select, TextArea } from '../../components/InputCard';
 import { ShellType } from '../../util/validators';
+import { getRestaurantId } from '../../util/session';
 
 export default function NewSupply() {
   const router = useRouter();
@@ -18,6 +19,17 @@ export default function NewSupply() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [restaurantId, setRestaurantId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const id = getRestaurantId();
+    if (!id) {
+      // Redirect to registration if not logged in as restaurant
+      router.push('/register/restaurant');
+    } else {
+      setRestaurantId(id);
+    }
+  }, [router]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -64,6 +76,7 @@ export default function NewSupply() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            restaurant_id: restaurantId,
             shell_type: shellType,
             weekly_quantity_kg: parseFloat(formData.weekly_quantity_kg),
             storage_method: formData.storage_method,

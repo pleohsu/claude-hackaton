@@ -1,19 +1,49 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import MatchCard from '../../components/MatchCard';
 import { MatchWithDetails } from '../../util/supabaseClient';
+import { getSession } from '../../util/session';
 
 export default function MatchesDashboard() {
+  const router = useRouter();
   const [matches, setMatches] = useState<MatchWithDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'pending' | 'active' | 'completed'>('all');
+  const [viewType, setViewType] = useState<'restaurant' | 'lab'>('restaurant');
 
   useEffect(() => {
-    // TODO: Fetch actual data from API
-    // For now, this is a placeholder
-    setIsLoading(false);
-  }, []);
+    const session = getSession();
+    if (!session) {
+      // Redirect to home if not logged in
+      router.push('/');
+      return;
+    }
+
+    setViewType(session.userType);
+
+    async function fetchMatches() {
+      try {
+        const queryParam = session.userType === 'restaurant'
+          ? `restaurant_id=${session.entityId}`
+          : `lab_id=${session.entityId}`;
+
+        const response = await fetch(`/api/matches?${queryParam}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch matches');
+        }
+        const data = await response.json();
+        setMatches(data.matches || []);
+      } catch (error) {
+        console.error('Error fetching matches:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchMatches();
+  }, [router]);
 
   const filteredMatches =
     filter === 'all'
@@ -69,7 +99,7 @@ export default function MatchesDashboard() {
               <MatchCard
                 key={match.id}
                 match={match}
-                viewType="restaurant" // This would be dynamic based on user type
+                viewType={viewType}
               />
             ))}
           </div>

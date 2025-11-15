@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/app/util/supabaseClient';
 import { demandStreamSchema } from '@/app/util/validators';
+import { matchDemandWithSupplies } from '@/app/util/matching';
 
 export async function POST(request: NextRequest) {
   try {
@@ -51,8 +52,10 @@ export async function POST(request: NextRequest) {
       throw demandError;
     }
 
-    // TODO: Trigger matching algorithm
-    // This could be done asynchronously or as a separate endpoint call
+    // Trigger matching algorithm asynchronously
+    matchDemandWithSupplies(demandStream.id).catch((err) =>
+      console.error('Matching error:', err)
+    );
 
     return NextResponse.json(
       {

@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import DashboardCard from '../../components/DashboardCard';
 import MatchCard from '../../components/MatchCard';
 import dynamic from 'next/dynamic';
 import { MatchWithDetails, DemandStream } from '../../util/supabaseClient';
+import { getLabId } from '../../util/session';
 
 // Dynamically import MapView to avoid SSR issues with Leaflet
 const MapView = dynamic(() => import('../../components/MapView'), {
@@ -14,15 +16,47 @@ const MapView = dynamic(() => import('../../components/MapView'), {
 });
 
 export default function LabDashboard() {
+  const router = useRouter();
   const [demands, setDemands] = useState<DemandStream[]>([]);
   const [matches, setMatches] = useState<MatchWithDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // TODO: Fetch actual data from API
-    // For now, this is a placeholder
-    setIsLoading(false);
-  }, []);
+    const labId = getLabId();
+    if (!labId) {
+      // Redirect to registration if not logged in
+      router.push('/register/lab');
+      return;
+    }
+
+    async function fetchData() {
+      try {
+        // Fetch demands
+        const demandsRes = await fetch(`/api/demand?lab_id=${labId}`);
+        if (!demandsRes.ok) {
+          throw new Error('Failed to fetch demands');
+        }
+        const demandsData = await demandsRes.json();
+        setDemands(demandsData.demands || []);
+
+        // Fetch matches
+        const matchesRes = await fetch(`/api/matches?lab_id=${labId}`);
+        if (!matchesRes.ok) {
+          throw new Error('Failed to fetch matches');
+        }
+        const matchesData = await matchesRes.json();
+        setMatches(matchesData.matches || []);
+      } catch (err) {
+        console.error('Error fetching dashboard data:', err);
+        setError('Failed to load dashboard data');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [router]);
 
   const totalWeeklyDemand = demands.reduce(
     (sum, demand) => sum + demand.weekly_quantity_needed_kg,

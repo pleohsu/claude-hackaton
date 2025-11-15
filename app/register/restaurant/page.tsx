@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import InputCard, { TextInput, Select, TextArea } from '../../components/InputCard';
+import { saveSession } from '../../util/session';
 
 export default function RestaurantRegister() {
   const router = useRouter();
@@ -58,6 +59,15 @@ export default function RestaurantRegister() {
         }
         return;
       }
+
+      // Save session data
+      saveSession({
+        userId: data.user.id,
+        userType: 'restaurant',
+        email: data.user.email,
+        name: data.user.name,
+        entityId: data.entityId,
+      });
 
       // Success - redirect to dashboard
       router.push('/dashboard/restaurant');
