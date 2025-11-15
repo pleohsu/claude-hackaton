@@ -75,6 +75,19 @@ export default function Login() {
             </p>
           </div>
 
+          {/* Demo Credentials */}
+          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
+            <h3 className="font-semibold text-blue-900 mb-2">Demo Credentials</h3>
+            <div className="space-y-2 text-sm text-blue-800">
+              <p className="font-medium">Restaurant:</p>
+              <p className="ml-4">Email: manager@legalseafoods.com</p>
+              <p className="ml-4">Password: password123</p>
+              <p className="font-medium mt-2">Lab:</p>
+              <p className="ml-4">Email: s.chen@mit.edu</p>
+              <p className="ml-4">Password: password123</p>
+            </div>
+          </div>
+
           {errors.general && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
               <p className="text-red-600 text-sm">{errors.general}</p>

@@ -28,6 +28,17 @@ export default function Home() {
                 I Am a Research Lab
               </Link>
             </div>
+            <div className="mt-6 text-center">
+              <p className="text-ocean-100">
+                Already have an account?{' '}
+                <Link
+                  href="/login"
+                  className="font-semibold underline hover:text-white"
+                >
+                  Log in here
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -169,6 +180,12 @@ export default function Home() {
               className="btn bg-ocean-800 text-white hover:bg-ocean-900 px-8 py-3 text-lg"
             >
               Register as Lab
+            </Link>
+            <Link
+              href="/login"
+              className="btn bg-ocean-600 text-white hover:bg-ocean-700 px-8 py-3 text-lg"
+            >
+              Login
             </Link>
           </div>
         </div>
