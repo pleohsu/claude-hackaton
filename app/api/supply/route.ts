@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/app/util/supabaseClient';
 import { supplyStreamSchema } from '@/app/util/validators';
+import { mockSupplies } from '@/app/util/mockDashboardData';
+
+// Check if Supabase is configured
+const isSupabaseConfigured = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== '' &&
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== "''";
 
 export async function POST(request: NextRequest) {
   try {
@@ -76,6 +82,21 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const restaurantId = searchParams.get('restaurant_id');
     const status = searchParams.get('status');
+
+    // DEMO MODE: Use mock data
+    if (!isSupabaseConfigured) {
+      let filteredSupplies = mockSupplies;
+
+      if (restaurantId) {
+        filteredSupplies = filteredSupplies.filter(s => s.restaurant_id === restaurantId);
+      }
+
+      if (status) {
+        filteredSupplies = filteredSupplies.filter(s => s.status === status);
+      }
+
+      return NextResponse.json({ supplies: filteredSupplies });
+    }
 
     let query = supabase
       .from('supply_streams')

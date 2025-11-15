@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/app/util/session';
 import { supabase } from '@/app/util/supabaseClient';
+import { mockAuth } from '@/app/util/mockAuth';
+
+// Check if Supabase is configured
+const isSupabaseConfigured = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== '' &&
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== "''";
 
 export async function GET() {
   try {
@@ -11,6 +17,20 @@ export async function GET() {
         { message: 'Not authenticated' },
         { status: 401 }
       );
+    }
+
+    // DEMO MODE: Return session data directly
+    if (!isSupabaseConfigured) {
+      const mockUser = mockAuth.getAllUsers().find(u => u.id === session.userId);
+      return NextResponse.json({
+        user: {
+          id: session.userId,
+          name: session.name,
+          email: session.email,
+          userType: session.userType,
+          profile: mockUser?.profile || null,
+        },
+      });
     }
 
     // Get additional profile data based on user type

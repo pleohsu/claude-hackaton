@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/app/util/supabaseClient';
 import { demandStreamSchema } from '@/app/util/validators';
+import { mockDemands } from '@/app/util/mockDashboardData';
+
+// Check if Supabase is configured
+const isSupabaseConfigured = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== '' &&
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== "''";
 
 export async function POST(request: NextRequest) {
   try {
@@ -76,6 +82,21 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const labId = searchParams.get('lab_id');
     const status = searchParams.get('status');
+
+    // DEMO MODE: Use mock data
+    if (!isSupabaseConfigured) {
+      let filteredDemands = mockDemands;
+
+      if (labId) {
+        filteredDemands = filteredDemands.filter(d => d.lab_id === labId);
+      }
+
+      if (status) {
+        filteredDemands = filteredDemands.filter(d => d.status === status);
+      }
+
+      return NextResponse.json({ demands: filteredDemands });
+    }
 
     let query = supabase
       .from('demand_streams')

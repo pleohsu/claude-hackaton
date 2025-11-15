@@ -3,6 +3,12 @@ import { supabase } from '@/app/util/supabaseClient';
 import bcrypt from 'bcryptjs';
 import { loginSchema } from '@/app/util/validators';
 import { createSessionResponse } from '@/app/util/session';
+import { mockAuth } from '@/app/util/mockAuth';
+
+// Check if Supabase is configured
+const isSupabaseConfigured = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== '' &&
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== "''";
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,6 +22,41 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, password } = validationResult.data;
+
+    // DEMO MODE: Use mock auth if Supabase isn't configured
+    if (!isSupabaseConfigured) {
+      console.log('🔧 DEMO MODE: Using mock authentication');
+      const user = mockAuth.login(email, password);
+
+      if (!user) {
+        return Response.json(
+          { message: 'Invalid email or password' },
+          { status: 401 }
+        );
+      }
+
+      const sessionData = {
+        userId: user.id,
+        email: user.email,
+        userType: user.userType,
+        name: user.name,
+      };
+
+      return createSessionResponse(
+        sessionData,
+        {
+          message: 'Login successful (Demo Mode)',
+          user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            userType: user.userType,
+            profile: user.profile,
+          },
+        },
+        200
+      );
+    }
 
     // Find user by email
     const { data: user, error: userError } = await supabase

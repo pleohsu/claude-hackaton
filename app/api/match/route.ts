@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/app/util/supabaseClient';
 import { calculateDistance } from '@/app/util/geolocation';
+import { mockMatches } from '@/app/util/mockDashboardData';
+
+// Check if Supabase is configured
+const isSupabaseConfigured = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== '' &&
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== "''";
 
 /**
  * Matching Algorithm
@@ -287,6 +293,25 @@ export async function GET(request: NextRequest) {
     const restaurantId = searchParams.get('restaurant_id');
     const labId = searchParams.get('lab_id');
     const status = searchParams.get('status');
+
+    // DEMO MODE: Use mock data
+    if (!isSupabaseConfigured) {
+      let filteredMatches = mockMatches;
+
+      if (restaurantId) {
+        filteredMatches = filteredMatches.filter(m => m.restaurant_id === restaurantId);
+      }
+
+      if (labId) {
+        filteredMatches = filteredMatches.filter(m => m.lab_id === labId);
+      }
+
+      if (status) {
+        filteredMatches = filteredMatches.filter(m => m.status === status);
+      }
+
+      return NextResponse.json({ matches: filteredMatches });
+    }
 
     let query = supabase
       .from('matches')
