@@ -77,7 +77,22 @@ export async function GET(request: NextRequest) {
     const restaurantId = searchParams.get('restaurant_id');
     const status = searchParams.get('status');
 
-    let query = supabase.from('supply_streams').select('*');
+    let query = supabase
+      .from('supply_streams')
+      .select(`
+        *,
+        restaurant:restaurants (
+          id,
+          restaurant_name,
+          address,
+          latitude,
+          longitude,
+          storage_method,
+          cleanliness_level,
+          contact_phone,
+          pickup_windows
+        )
+      `);
 
     if (restaurantId) {
       query = query.eq('restaurant_id', restaurantId);

@@ -77,7 +77,24 @@ export async function GET(request: NextRequest) {
     const labId = searchParams.get('lab_id');
     const status = searchParams.get('status');
 
-    let query = supabase.from('demand_streams').select('*');
+    let query = supabase
+      .from('demand_streams')
+      .select(`
+        *,
+        lab:labs (
+          id,
+          institution_name,
+          dept,
+          lab_name,
+          address,
+          latitude,
+          longitude,
+          extraction_frequency,
+          max_pickup_radius_km,
+          application,
+          contact_phone
+        )
+      `);
 
     if (labId) {
       query = query.eq('lab_id', labId);

@@ -73,6 +73,28 @@ export default function Navbar() {
               About
             </Link>
 
+            <Link
+              href="/explore"
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                isActive('/explore')
+                  ? 'bg-ocean-800 text-white'
+                  : 'text-ocean-100 hover:bg-ocean-600'
+              }`}
+            >
+              Explore
+            </Link>
+
+            <Link
+              href="/admin"
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                isActive('/admin')
+                  ? 'bg-ocean-800 text-white'
+                  : 'text-ocean-100 hover:bg-ocean-600'
+              }`}
+            >
+              Admin
+            </Link>
+
             {!isLoading && (
               <>
                 {user ? (
