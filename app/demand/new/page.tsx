@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ShellTypeSelector from '../../components/ShellTypeSelector';
 import InputCard, { TextInput, Select, TextArea } from '../../components/InputCard';
@@ -18,6 +18,30 @@ export default function NewDemand() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [labId, setLabId] = useState<string | null>(null);
+
+  useEffect(() => {
+    checkSession();
+  }, []);
+
+  const checkSession = async () => {
+    try {
+      const response = await fetch('/api/auth/session');
+      if (!response.ok) {
+        router.push('/login');
+        return;
+      }
+      const data = await response.json();
+      if (data.user.userType !== 'lab') {
+        router.push('/login');
+        return;
+      }
+      setLabId(data.user.profile?.id);
+    } catch (error) {
+      console.error('Session check error:', error);
+      router.push('/login');
+    }
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -61,12 +85,19 @@ export default function NewDemand() {
     setIsLoading(true);
 
     try {
+      if (!labId) {
+        setErrors({ general: 'Not authenticated. Please log in.' });
+        setIsLoading(false);
+        return;
+      }
+
       // Create demand stream for each selected shell type
       const promises = selectedShellTypes.map((shellType) =>
         fetch('/api/demand', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            lab_id: labId,
             shell_type_needed: shellType,
             weekly_quantity_needed_kg: parseFloat(formData.weekly_quantity_needed_kg),
             extraction_frequency: formData.extraction_frequency,

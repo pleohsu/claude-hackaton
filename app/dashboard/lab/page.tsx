@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import DashboardCard from '../../components/DashboardCard';
 import MatchCard from '../../components/MatchCard';
@@ -14,15 +15,55 @@ const MapView = dynamic(() => import('../../components/MapView'), {
 });
 
 export default function LabDashboard() {
+  const router = useRouter();
   const [demands, setDemands] = useState<DemandStream[]>([]);
   const [matches, setMatches] = useState<MatchWithDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [labId, setLabId] = useState<string | null>(null);
 
   useEffect(() => {
-    // TODO: Fetch actual data from API
-    // For now, this is a placeholder
-    setIsLoading(false);
+    fetchDashboardData();
   }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      // Check session
+      const sessionResponse = await fetch('/api/auth/session');
+      if (!sessionResponse.ok) {
+        router.push('/login');
+        return;
+      }
+
+      const sessionData = await sessionResponse.json();
+      if (sessionData.user.userType !== 'lab') {
+        router.push('/login');
+        return;
+      }
+
+      const labProfileId = sessionData.user.profile?.id;
+      setLabId(labProfileId);
+
+      // Fetch demands
+      if (labProfileId) {
+        const demandsResponse = await fetch(`/api/demand?lab_id=${labProfileId}`);
+        if (demandsResponse.ok) {
+          const demandsData = await demandsResponse.json();
+          setDemands(demandsData.demands || []);
+        }
+
+        // Fetch matches
+        const matchesResponse = await fetch(`/api/match?lab_id=${labProfileId}`);
+        if (matchesResponse.ok) {
+          const matchesData = await matchesResponse.json();
+          setMatches(matchesData.matches || []);
+        }
+      }
+    } catch (error) {
+      console.error('Dashboard fetch error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const totalWeeklyDemand = demands.reduce(
     (sum, demand) => sum + demand.weekly_quantity_needed_kg,

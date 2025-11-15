@@ -3,6 +3,7 @@ import { supabase } from '@/app/util/supabaseClient';
 import { geocodeAddress } from '@/app/util/geolocation';
 import bcrypt from 'bcryptjs';
 import { restaurantRegistrationSchema, labRegistrationSchema } from '@/app/util/validators';
+import { createSessionResponse } from '@/app/util/session';
 
 export async function POST(request: NextRequest) {
   try {
@@ -106,7 +107,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return NextResponse.json(
+    // Create session for auto-login after registration
+    const sessionData = {
+      userId: userData.id,
+      email: userData.email,
+      userType: userData.user_type as 'restaurant' | 'lab',
+      name: userData.name,
+    };
+
+    return createSessionResponse(
+      sessionData,
       {
         message: 'Registration successful',
         user: {
@@ -116,7 +126,7 @@ export async function POST(request: NextRequest) {
           user_type: userData.user_type,
         },
       },
-      { status: 201 }
+      201
     );
   } catch (error) {
     console.error('Registration error:', error);

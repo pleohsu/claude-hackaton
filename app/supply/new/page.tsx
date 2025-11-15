@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ShellTypeSelector from '../../components/ShellTypeSelector';
 import InputCard, { TextInput, Select, TextArea } from '../../components/InputCard';
@@ -18,6 +18,30 @@ export default function NewSupply() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [restaurantId, setRestaurantId] = useState<string | null>(null);
+
+  useEffect(() => {
+    checkSession();
+  }, []);
+
+  const checkSession = async () => {
+    try {
+      const response = await fetch('/api/auth/session');
+      if (!response.ok) {
+        router.push('/login');
+        return;
+      }
+      const data = await response.json();
+      if (data.user.userType !== 'restaurant') {
+        router.push('/login');
+        return;
+      }
+      setRestaurantId(data.user.profile?.id);
+    } catch (error) {
+      console.error('Session check error:', error);
+      router.push('/login');
+    }
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -58,12 +82,19 @@ export default function NewSupply() {
     setIsLoading(true);
 
     try {
+      if (!restaurantId) {
+        setErrors({ general: 'Not authenticated. Please log in.' });
+        setIsLoading(false);
+        return;
+      }
+
       // Create supply stream for each selected shell type
       const promises = selectedShellTypes.map((shellType) =>
         fetch('/api/supply', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            restaurant_id: restaurantId,
             shell_type: shellType,
             weekly_quantity_kg: parseFloat(formData.weekly_quantity_kg),
             storage_method: formData.storage_method,

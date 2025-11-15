@@ -1,21 +1,62 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import DashboardCard from '../../components/DashboardCard';
 import MatchCard from '../../components/MatchCard';
 import { MatchWithDetails, SupplyStream } from '../../util/supabaseClient';
 
 export default function RestaurantDashboard() {
+  const router = useRouter();
   const [supplies, setSupplies] = useState<SupplyStream[]>([]);
   const [matches, setMatches] = useState<MatchWithDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [restaurantId, setRestaurantId] = useState<string | null>(null);
 
   useEffect(() => {
-    // TODO: Fetch actual data from API
-    // For now, this is a placeholder
-    setIsLoading(false);
+    fetchDashboardData();
   }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      // Check session
+      const sessionResponse = await fetch('/api/auth/session');
+      if (!sessionResponse.ok) {
+        router.push('/login');
+        return;
+      }
+
+      const sessionData = await sessionResponse.json();
+      if (sessionData.user.userType !== 'restaurant') {
+        router.push('/login');
+        return;
+      }
+
+      const restId = sessionData.user.profile?.id;
+      setRestaurantId(restId);
+
+      // Fetch supplies
+      if (restId) {
+        const suppliesResponse = await fetch(`/api/supply?restaurant_id=${restId}`);
+        if (suppliesResponse.ok) {
+          const suppliesData = await suppliesResponse.json();
+          setSupplies(suppliesData.supplies || []);
+        }
+
+        // Fetch matches
+        const matchesResponse = await fetch(`/api/match?restaurant_id=${restId}`);
+        if (matchesResponse.ok) {
+          const matchesData = await matchesResponse.json();
+          setMatches(matchesData.matches || []);
+        }
+      }
+    } catch (error) {
+      console.error('Dashboard fetch error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const totalWeeklySupply = supplies.reduce(
     (sum, supply) => sum + supply.weekly_quantity_kg,
