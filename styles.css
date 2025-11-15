@@ -1,0 +1,591 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding-bottom: 2rem;
+}
+
+header {
+    background: white;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #667eea;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.progress-bar {
+    width: 100%;
+    max-width: 600px;
+    height: 20px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    margin: 1rem auto;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    color: #666;
+    font-weight: bold;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    background: white;
+    padding: 1rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: #f0f0f0;
+    color: #333;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.content-section {
+    display: none;
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    animation: fadeIn 0.5s ease;
+}
+
+.content-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h2 {
+    color: #667eea;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 3px solid #667eea;
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    color: #764ba2;
+    font-size: 1.5rem;
+    margin: 2rem 0 1rem 0;
+}
+
+.info-box {
+    background: #f8f9ff;
+    border-left: 4px solid #667eea;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+}
+
+.info-box p {
+    margin: 0.5rem 0;
+}
+
+/* Hangul Grid */
+.hangul-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.hangul-card {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hangul-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.hangul-char {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 0.5rem;
+}
+
+.pronunciation {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0.5rem 0;
+    font-weight: 600;
+}
+
+.comparison {
+    font-size: 0.85rem;
+    color: #666;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+/* Practice Box */
+.practice-box {
+    background: #fff8e1;
+    border: 2px solid #ffc107;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.syllable-examples {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.syllable-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.construction {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.construction strong {
+    color: #667eea;
+    font-size: 1.8rem;
+}
+
+.meaning {
+    color: #666;
+    font-style: italic;
+}
+
+/* Vocabulary */
+.vocab-category {
+    margin: 2rem 0;
+}
+
+.vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 1rem 0;
+}
+
+.vocab-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.vocab-card:hover {
+    border-color: #667eea;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.vocab-card.learned {
+    background: #e8f5e9;
+    border-color: #4caf50;
+}
+
+.korean-word {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 0.75rem;
+}
+
+.chinese, .japanese {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+    color: #555;
+}
+
+.hanja {
+    font-size: 1.3rem;
+    color: #999;
+    margin: 0.5rem 0;
+}
+
+.meaning {
+    color: #666;
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
+.learn-btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: #667eea;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.learn-btn:hover {
+    background: #764ba2;
+}
+
+.vocab-card.learned .learn-btn {
+    background: #4caf50;
+}
+
+/* Grammar */
+.grammar-topic {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #f8f9ff;
+    border-radius: 10px;
+}
+
+.comparison-table {
+    margin: 1rem 0;
+}
+
+.lang-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background: white;
+    border-radius: 8px;
+    align-items: center;
+}
+
+.lang-row.highlight {
+    background: #e8f5e9;
+    border: 2px solid #4caf50;
+}
+
+.lang-label {
+    font-weight: bold;
+    color: #667eea;
+}
+
+.sentence {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.structure {
+    color: #666;
+}
+
+/* Particles */
+.particle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 1rem 0;
+}
+
+.particle-card {
+    background: white;
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+.particle {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 0.5rem;
+}
+
+.function {
+    font-size: 1.1rem;
+    color: #764ba2;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.example {
+    background: #f0f0f0;
+    padding: 0.75rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+/* Politeness */
+.politeness-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 1rem 0;
+}
+
+.politeness-card {
+    background: white;
+    border-left: 5px solid #667eea;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.level {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #764ba2;
+    margin-bottom: 0.75rem;
+}
+
+.usage {
+    color: #666;
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
+/* Quiz */
+.quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.quiz-question {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    background: #f8f9ff;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.quiz-options {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.quiz-option {
+    padding: 1.5rem;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+}
+
+.quiz-option:hover {
+    border-color: #667eea;
+    transform: translateX(5px);
+}
+
+.quiz-option.correct {
+    background: #e8f5e9;
+    border-color: #4caf50;
+}
+
+.quiz-option.incorrect {
+    background: #ffebee;
+    border-color: #f44336;
+}
+
+.quiz-option.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.quiz-feedback {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-align: center;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quiz-feedback.correct {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.quiz-feedback.incorrect {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.quiz-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-primary {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.quiz-score {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #667eea;
+}
+
+/* Footer */
+footer {
+    background: white;
+    padding: 2rem;
+    text-align: center;
+    margin-top: 2rem;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+footer p {
+    margin: 0.5rem 0;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .tabs {
+        gap: 0.5rem;
+    }
+
+    .tab-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .hangul-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 0.75rem;
+    }
+
+    .hangul-char {
+        font-size: 2.5rem;
+    }
+
+    .vocab-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lang-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .particle-grid,
+    .politeness-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .content-section {
+        padding: 1rem;
+    }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+}

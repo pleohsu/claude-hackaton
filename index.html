@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korean for Mandarin & Japanese Speakers</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>🇰🇷 한국어 배우기 - Learn Korean</h1>
+        <p class="subtitle">Tailored for Mandarin & Japanese Speakers</p>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p class="progress-text">Progress: <span id="progressPercent">0</span>%</p>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab-btn active" onclick="showSection('hangul')">Hangul 한글</button>
+        <button class="tab-btn" onclick="showSection('vocabulary')">Vocabulary 词汇</button>
+        <button class="tab-btn" onclick="showSection('grammar')">Grammar 文法</button>
+        <button class="tab-btn" onclick="showSection('quiz')">Quiz 测验</button>
+    </nav>
+
+    <main>
+        <!-- Hangul Section -->
+        <section id="hangul" class="content-section active">
+            <h2>Hangul Basics 한글 기초</h2>
+            <div class="info-box">
+                <p><strong>Good news!</strong> Korean uses a phonetic alphabet called Hangul (한글), similar to Japanese hiragana/katakana.</p>
+                <p><strong>好消息！</strong>韩文使用拼音文字，类似日文的假名系统。</p>
+            </div>
+
+            <div class="hangul-section">
+                <h3>Vowels 母音 (모음)</h3>
+                <div class="hangul-grid">
+                    <div class="hangul-card" onclick="playSound('a')">
+                        <div class="hangul-char">ㅏ</div>
+                        <div class="pronunciation">a</div>
+                        <div class="comparison">
+                            <span>🇨🇳 啊 (ā)</span>
+                            <span>🇯🇵 あ (a)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('eo')">
+                        <div class="hangul-char">ㅓ</div>
+                        <div class="pronunciation">eo</div>
+                        <div class="comparison">
+                            <span>🇨🇳 额 (é)</span>
+                            <span>🇯🇵 お (o)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('o')">
+                        <div class="hangul-char">ㅗ</div>
+                        <div class="pronunciation">o</div>
+                        <div class="comparison">
+                            <span>🇨🇳 哦 (ō)</span>
+                            <span>🇯🇵 お (o)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('u')">
+                        <div class="hangul-char">ㅜ</div>
+                        <div class="pronunciation">u</div>
+                        <div class="comparison">
+                            <span>🇨🇳 乌 (wū)</span>
+                            <span>🇯🇵 う (u)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('eu')">
+                        <div class="hangul-char">ㅡ</div>
+                        <div class="pronunciation">eu</div>
+                        <div class="comparison">
+                            <span>🇨🇳 呃 (è)</span>
+                            <span>🇯🇵 う (u) flatter</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('i')">
+                        <div class="hangul-char">ㅣ</div>
+                        <div class="pronunciation">i</div>
+                        <div class="comparison">
+                            <span>🇨🇳 衣 (yī)</span>
+                            <span>🇯🇵 い (i)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('ae')">
+                        <div class="hangul-char">ㅐ</div>
+                        <div class="pronunciation">ae</div>
+                        <div class="comparison">
+                            <span>🇨🇳 哎 (āi)</span>
+                            <span>🇯🇵 え (e)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('e')">
+                        <div class="hangul-char">ㅔ</div>
+                        <div class="pronunciation">e</div>
+                        <div class="comparison">
+                            <span>🇨🇳 诶 (éi)</span>
+                            <span>🇯🇵 え (e)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Consonants 子音 (자음)</h3>
+                <div class="hangul-grid">
+                    <div class="hangul-card" onclick="playSound('g')">
+                        <div class="hangul-char">ㄱ</div>
+                        <div class="pronunciation">g/k</div>
+                        <div class="comparison">
+                            <span>🇨🇳 哥 (gē)</span>
+                            <span>🇯🇵 が (ga)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('n')">
+                        <div class="hangul-char">ㄴ</div>
+                        <div class="pronunciation">n</div>
+                        <div class="comparison">
+                            <span>🇨🇳 呢 (ne)</span>
+                            <span>🇯🇵 な (na)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('d')">
+                        <div class="hangul-char">ㄷ</div>
+                        <div class="pronunciation">d/t</div>
+                        <div class="comparison">
+                            <span>🇨🇳 得 (dé)</span>
+                            <span>🇯🇵 だ (da)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('r')">
+                        <div class="hangul-char">ㄹ</div>
+                        <div class="pronunciation">r/l</div>
+                        <div class="comparison">
+                            <span>🇨🇳 了 (le)</span>
+                            <span>🇯🇵 ら (ra)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('m')">
+                        <div class="hangul-char">ㅁ</div>
+                        <div class="pronunciation">m</div>
+                        <div class="comparison">
+                            <span>🇨🇳 么 (me)</span>
+                            <span>🇯🇵 ま (ma)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('b')">
+                        <div class="hangul-char">ㅂ</div>
+                        <div class="pronunciation">b/p</div>
+                        <div class="comparison">
+                            <span>🇨🇳 吧 (ba)</span>
+                            <span>🇯🇵 ば (ba)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('s')">
+                        <div class="hangul-char">ㅅ</div>
+                        <div class="pronunciation">s</div>
+                        <div class="comparison">
+                            <span>🇨🇳 丝 (sī)</span>
+                            <span>🇯🇵 さ (sa)</span>
+                        </div>
+                    </div>
+                    <div class="hangul-card" onclick="playSound('j')">
+                        <div class="hangul-char">ㅈ</div>
+                        <div class="pronunciation">j</div>
+                        <div class="comparison">
+                            <span>🇨🇳 吉 (jí)</span>
+                            <span>🇯🇵 じ (ji)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="practice-box">
+                    <h3>Practice: Combine to form syllables</h3>
+                    <div class="syllable-examples">
+                        <div class="syllable-card">
+                            <div class="construction">ㄱ + ㅏ = <strong>가</strong></div>
+                            <div class="meaning">"ga" (similar to 가 in Japanese)</div>
+                        </div>
+                        <div class="syllable-card">
+                            <div class="construction">ㅎ + ㅏ + ㄴ = <strong>한</strong></div>
+                            <div class="meaning">"han" (Korea = 한국)</div>
+                        </div>
+                        <div class="syllable-card">
+                            <div class="construction">ㄱ + ㅜ + ㄱ = <strong>국</strong></div>
+                            <div class="meaning">"guk" (country, 国 in Chinese)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vocabulary Section -->
+        <section id="vocabulary" class="content-section">
+            <h2>Essential Vocabulary 基本词汇</h2>
+            <div class="info-box">
+                <p><strong>🎯 Pro tip:</strong> 60% of Korean vocabulary comes from Chinese (한자어 Sino-Korean words)!</p>
+                <p><strong>专业提示：</strong>60%的韩语词汇来自汉字！</p>
+            </div>
+
+            <div class="vocab-category">
+                <h3>Sino-Korean Words (Chinese Origin) 汉字词</h3>
+                <div class="vocab-grid">
+                    <div class="vocab-card" onclick="markLearned(this)">
+                        <div class="korean-word">학교 (hak-gyo)</div>
+                        <div class="chinese">🇨🇳 学校 (xuéxiào)</div>
+                        <div class="japanese">🇯🇵 学校 (gakkō)</div>
+                        <div class="hanja">學校</div>
+                        <button class="learn-btn">Mark as Learned</button>
+                    </div>
+                    <div class="vocab-card" onclick="markLearned(this)">
+                        <div class="korean-word">도서관 (do-seo-gwan)</div>
+                        <div class="chinese">🇨🇳 图书馆 (túshūguǎn)</div>
+                        <div class="japanese">🇯🇵 図書館 (toshokan)</div>
+                        <div class="hanja">圖書館</div>
+                        <button class="learn-btn">Mark as Learned</button>
+                    </div>
+                    <div class="vocab-card" onclick="markLearned(this)">
+                        <div class="korean-word">전화 (jeon-hwa)</div>
+                        <div class="chinese">🇨🇳 电话 (diànhuà)</div>
+                        <div class="japanese">🇯🇵 電話 (denwa)</div>
+                        <div class="hanja">電話</div>
+                        <button class="learn-btn">Mark as Learned</button>
+                    </div>
+                    <div class="vocab-card" onclick="markLearned(this)">
+                        <div class="korean-word">시간 (si-gan)</div>
+                        <div class="chinese">🇨🇳 时间 (shíjiān)</div>
+                        <div class="japanese">🇯🇵 時間 (jikan)</div>
+                        <div class="hanja">時間</div>
+                        <button class="learn-btn">Mark as Learned</button>
+                    </div>
+                    <div class="vocab-card" onclick="markLearned(this)">
+                        <div class="korean-word">음악 (eum-ak)</div>
+                        <div class="chinese">🇨🇳 音乐 (yīnyuè)</div>
+                        <div class="japanese">🇯🇵 音楽 (ongaku)</div>
+                        <div class="hanja">音樂</div>
+                        <button class="learn-btn">Mark as Learned</button>
+                    </div>
+                    <div class="vocab-card" onclick="markLearned(this)">
+                        <div class="korean-word">가족 (ga-jok)</div>
+                        <div class="chinese">🇨🇳 家族 (jiāzú)</div>
+                        <div class="japanese">🇯🇵 家族 (kazoku)</div>
+                        <div class="hanja">家族</div>
+                        <button class="learn-btn">Mark as Learned</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vocab-category">
+                <h3>Pure Korean Words (Native) 固有词</h3>
+                <div class="vocab-grid">
+                    <div class="vocab-card" onclick="markLearned(this)">
+                        <div class="korean-word">안녕하세요 (an-nyeong-ha-se-yo)</div>
+                        <div class="chinese">🇨🇳 你好 (nǐhǎo)</div>
+                        <div class="japanese">🇯🇵 こんにちは (konnichiwa)</div>
+                        <div class="meaning">Hello (polite)</div>
+                        <button class="learn-btn">Mark as Learned</button>
+                    </div>
+                    <div class="vocab-card" onclick="markLearned(this)">
+                        <div class="korean-word">감사합니다 (gam-sa-ham-ni-da)</div>
+                        <div class="chinese">🇨🇳 谢谢 (xièxie)</div>
+                        <div class="japanese">🇯🇵 ありがとうございます (arigatō gozaimasu)</div>
+                        <div class="meaning">Thank you</div>
+                        <button class="learn-btn">Mark as Learned</button>
+                    </div>
+                    <div class="vocab-card" onclick="markLearned(this)">
+                        <div class="korean-word">네 / 아니요 (ne / a-ni-yo)</div>
+                        <div class="chinese">🇨🇳 是 / 不是 (shì / bùshì)</div>
+                        <div class="japanese">🇯🇵 はい / いいえ (hai / iie)</div>
+                        <div class="meaning">Yes / No</div>
+                        <button class="learn-btn">Mark as Learned</button>
+                    </div>
+                    <div class="vocab-card" onclick="markLearned(this)">
+                        <div class="korean-word">물 (mul)</div>
+                        <div class="chinese">🇨🇳 水 (shuǐ)</div>
+                        <div class="japanese">🇯🇵 水 (mizu)</div>
+                        <div class="meaning">Water</div>
+                        <button class="learn-btn">Mark as Learned</button>
+                    </div>
+                    <div class="vocab-card" onclick="markLearned(this)">
+                        <div class="korean-word">밥 (bap)</div>
+                        <div class="chinese">🇨🇳 饭 (fàn)</div>
+                        <div class="japanese">🇯🇵 ご飯 (gohan)</div>
+                        <div class="meaning">Rice / Meal</div>
+                        <button class="learn-btn">Mark as Learned</button>
+                    </div>
+                    <div class="vocab-card" onclick="markLearned(this)">
+                        <div class="korean-word">사랑 (sa-rang)</div>
+                        <div class="chinese">🇨🇳 爱 (ài)</div>
+                        <div class="japanese">🇯🇵 愛 (ai)</div>
+                        <div class="meaning">Love</div>
+                        <button class="learn-btn">Mark as Learned</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grammar Section -->
+        <section id="grammar" class="content-section">
+            <h2>Grammar Basics 基本文法</h2>
+
+            <div class="grammar-topic">
+                <h3>Word Order 语序 / 語順</h3>
+                <div class="comparison-table">
+                    <div class="lang-row">
+                        <div class="lang-label">Korean 한국어</div>
+                        <div class="sentence">나는 + 사과를 + 먹어요</div>
+                        <div class="structure">Subject + Object + Verb</div>
+                    </div>
+                    <div class="lang-row">
+                        <div class="lang-label">Chinese 中文</div>
+                        <div class="sentence">我 + 吃 + 苹果</div>
+                        <div class="structure">Subject + Verb + Object</div>
+                    </div>
+                    <div class="lang-row highlight">
+                        <div class="lang-label">Japanese 日本語</div>
+                        <div class="sentence">私は + りんごを + 食べます</div>
+                        <div class="structure">Subject + Object + Verb ✓ Same!</div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <p><strong>Great news!</strong> Korean has the same SOV word order as Japanese!</p>
+                    <p><strong>好消息！</strong>韩语的语序和日语一样（主语-宾语-动词）！</p>
+                </div>
+            </div>
+
+            <div class="grammar-topic">
+                <h3>Particles 助词 (조사)</h3>
+                <div class="particle-grid">
+                    <div class="particle-card">
+                        <div class="particle">은/는 (eun/neun)</div>
+                        <div class="function">Topic marker</div>
+                        <div class="comparison">
+                            <div>🇯🇵 は (wa) - Same function!</div>
+                            <div>🇨🇳 No direct equivalent</div>
+                        </div>
+                        <div class="example">저는 학생이에요 (I am a student)</div>
+                    </div>
+                    <div class="particle-card">
+                        <div class="particle">이/가 (i/ga)</div>
+                        <div class="function">Subject marker</div>
+                        <div class="comparison">
+                            <div>🇯🇵 が (ga) - Identical!</div>
+                            <div>🇨🇳 No direct equivalent</div>
+                        </div>
+                        <div class="example">누가 왔어요? (Who came?)</div>
+                    </div>
+                    <div class="particle-card">
+                        <div class="particle">을/를 (eul/reul)</div>
+                        <div class="function">Object marker</div>
+                        <div class="comparison">
+                            <div>🇯🇵 を (wo) - Same!</div>
+                            <div>🇨🇳 把 (bǎ) - similar</div>
+                        </div>
+                        <div class="example">밥을 먹어요 (eat rice)</div>
+                    </div>
+                    <div class="particle-card">
+                        <div class="particle">의 (ui)</div>
+                        <div class="function">Possessive</div>
+                        <div class="comparison">
+                            <div>🇯🇵 の (no) - Same!</div>
+                            <div>🇨🇳 的 (de)</div>
+                        </div>
+                        <div class="example">나의 책 (my book)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grammar-topic">
+                <h3>Politeness Levels 敬语 / 敬語</h3>
+                <div class="info-box">
+                    <p>Like Japanese, Korean has multiple politeness levels!</p>
+                    <p>和日语一样，韩语也有敬语系统！</p>
+                </div>
+                <div class="politeness-grid">
+                    <div class="politeness-card">
+                        <div class="level">Formal Polite (합니다체)</div>
+                        <div class="example">먹습니다 (meok-seum-ni-da)</div>
+                        <div class="comparison">🇯🇵 Similar to です/ます form</div>
+                        <div class="usage">Official settings, news, presentations</div>
+                    </div>
+                    <div class="politeness-card">
+                        <div class="level">Informal Polite (해요체)</div>
+                        <div class="example">먹어요 (meo-geo-yo)</div>
+                        <div class="comparison">🇯🇵 Most common, like です/ます</div>
+                        <div class="usage">Daily conversation, most common</div>
+                    </div>
+                    <div class="politeness-card">
+                        <div class="level">Casual (반말)</div>
+                        <div class="example">먹어 (meo-geo)</div>
+                        <div class="comparison">🇯🇵 Like plain form だ/である</div>
+                        <div class="usage">Close friends, younger people</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="content-section">
+            <h2>Practice Quiz 练习测验</h2>
+            <div class="quiz-container">
+                <div id="quizQuestion" class="quiz-question"></div>
+                <div id="quizOptions" class="quiz-options"></div>
+                <div id="quizFeedback" class="quiz-feedback"></div>
+                <div class="quiz-controls">
+                    <button id="nextQuizBtn" onclick="nextQuestion()" class="btn-primary">Next Question</button>
+                    <div class="quiz-score">Score: <span id="quizScore">0</span> / <span id="quizTotal">0</span></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>💡 Study tip: Use your Chinese knowledge for vocabulary and Japanese knowledge for grammar!</p>
+        <p>学习建议：用中文知识学词汇，用日语知识学语法！</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
